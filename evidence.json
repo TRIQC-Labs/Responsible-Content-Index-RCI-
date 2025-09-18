@@ -1,0 +1,52 @@
+[
+  {
+    "id": "SRC-001",
+    "url": "https://<replace-with-url>",
+    "domain": "<journal-domain.tld>",
+    "title": "<paper title>",
+    "date": "YYYY-MM-DD",
+    "source_type": "peer_reviewed",
+    "trust_weight": 1.0,
+    "snippet": "<exact quoted snippet from the page supporting or contradicting the claim>"
+  },
+  {
+    "id": "SRC-002",
+    "url": "https://<replace-with-url>",
+    "domain": "<agency.gov>",
+    "title": "<official factsheet/report title>",
+    "date": "YYYY-MM-DD",
+    "source_type": "government",
+    "trust_weight": 0.95,
+    "snippet": "<exact quoted snippet from the page>"
+  },
+  {
+    "id": "SRC-003",
+    "url": "https://<replace-with-url>",
+    "domain": "<factcheck-site.tld>",
+    "title": "<fact check article title>",
+    "date": "YYYY-MM-DD",
+    "source_type": "fact_check",
+    "trust_weight": 0.9,
+    "snippet": "<exact quoted verdict or key passage>"
+  },
+  {
+    "id": "SRC-004",
+    "url": "https://<replace-with-url>",
+    "domain": "<newswire.tld>",
+    "title": "<news wire article title>",
+    "date": "YYYY-MM-DD",
+    "source_type": "news_wire",
+    "trust_weight": 0.7,
+    "snippet": "<short quote from article relevant to the claim>"
+  },
+  {
+    "id": "SRC-005",
+    "url": "https://<replace-with-url>",
+    "domain": "wikipedia.org",
+    "title": "<wikipedia page title>",
+    "date": "YYYY-MM-DD",
+    "source_type": "wikipedia",
+    "trust_weight": 0.5,
+    "snippet": "<short quoted sentence from the relevant section>"
+  }
+]

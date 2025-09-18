@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def query_gpt4o(prompt, temperature=0.2):
+def query_gpt_client(prompt, temperature=0.2):
     response = client.chat.completions.create(
         model="gpt-4o",
         messages=[
