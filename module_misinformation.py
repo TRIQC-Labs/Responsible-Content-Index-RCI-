@@ -1,7 +1,7 @@
 from llm_client import query_gpt_client
 import json
 
-def run_misinformation_risk(text: str, evidence_items=None, risk_threshold: float = 0.40):
+def run_misinformation_analysis(text: str, evidence_items=None, risk_threshold: float = 0.40):
     template = """
       You are an expert fact-checking system. Evaluate ONLY misinformation/factual risk for the provided text. Do not consider other lenses.
 

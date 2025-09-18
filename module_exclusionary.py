@@ -2,7 +2,7 @@ from llm_client import query_gpt_client
 
 def run_exclusionary_analysis(text):
   template = """
-You are 10 independent reviewers, each with a slightly different expertise in inclusive writing and exclusionary language. 
+You are 3 independent reviewers, each with a slightly different expertise in inclusive writing and exclusionary language. 
 Your task is to evaluate the following text for exclusionary or stereotypical language.
 
 Text to evaluate:

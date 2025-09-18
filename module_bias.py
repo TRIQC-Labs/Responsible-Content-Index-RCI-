@@ -1,6 +1,6 @@
 from llm_client import query_gpt_client
 
-def run_bias_fairness_analysis(text: str):
+def run_bias_analysis(text: str):
     template = """
 You are 10 independent reviewers, each with a slightly different perspective on bias and fairness.
 Your task is to evaluate the following text for bias or fairness issues.

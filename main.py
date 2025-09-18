@@ -1,10 +1,16 @@
+# main.py
+import json
 from controller import evaluate_text
+from progress import ConsoleReporter, JSONLReporter
 
-# "Diversity hiring quotas lower workplace productivity."
-print("🧠 TRIQC Digital Equity Evaluator (Type 'exit' to quit)")
+print("🧠 TRIQC Digital Equity Evaluator (type 'exit' to quit)")
+mode = input("Show progress as [console/jsonl]? ").strip().lower() or "console"
+reporter = JSONLReporter() if mode.startswith("json") else ConsoleReporter()
+
 while True:
     user_input = input("\nEnter text to evaluate: ")
-    if user_input.lower() in ["exit", "quit"]:
+    if user_input.lower() in {"exit", "quit"}:
         break
-    result = evaluate_text(user_input)
-    print("\n📊 Result:\n", result)
+    report = evaluate_text(user_input, reporter=reporter)
+    print("\n📜 Certification Report:\n")
+    print(json.dumps(report, indent=2, ensure_ascii=False))
