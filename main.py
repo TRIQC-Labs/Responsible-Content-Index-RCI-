@@ -1,16 +1,24 @@
-# main.py
+# main.py UI only no CLI
+from fastapi import FastAPI, Request
+from fastapi.responses import StreamingResponse
+from controller import evaluate_text_stream
 import json
-from controller import evaluate_text
-from progress import ConsoleReporter, JSONLReporter
+from fastapi.middleware.cors import CORSMiddleware
 
-print("🧠 TRIQC Digital Equity Evaluator (type 'exit' to quit)")
-mode = input("Show progress as [console/jsonl]? ").strip().lower() or "console"
-reporter = JSONLReporter() if mode.startswith("json") else ConsoleReporter()
+app = FastAPI()
 
-while True:
-    user_input = input("\nEnter text to evaluate: ")
-    if user_input.lower() in {"exit", "quit"}:
-        break
-    report = evaluate_text(user_input, reporter=reporter)
-    print("\n📜 Certification Report:\n")
-    print(json.dumps(report, indent=2, ensure_ascii=False))
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Next.js dev server
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.get("/evaluate")
+async def evaluate(text: str):
+    async def event_generator():
+        async for event in evaluate_text_stream(text):
+            yield f"data: {json.dumps(event)}\n\n"
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
