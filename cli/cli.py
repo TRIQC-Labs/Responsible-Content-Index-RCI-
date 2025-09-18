@@ -1,16 +1,16 @@
-# cli prompt evaluator formally main.py
-import json
-from controller import evaluate_text
-from progress import ConsoleReporter, JSONLReporter
+# cli/cli.py
+import argparse
+from ..controller import run_all_lenses
 
-print("🧠 TRIQC Digital Equity Evaluator (type 'exit' to quit)")
-mode = input("Show progress as [console/jsonl]? ").strip().lower() or "console"
-reporter = JSONLReporter() if mode.startswith("json") else ConsoleReporter()
+def main():
+    parser = argparse.ArgumentParser(description="Run EqualityMatrix Lenses")
+    parser.add_argument("text", type=str, help="Input text to evaluate")
+    args = parser.parse_args()
 
-while True:
-    user_input = input("\nEnter text to evaluate: ")
-    if user_input.lower() in {"exit", "quit"}:
-        break
-    report = evaluate_text(user_input, reporter=reporter)
-    print("\n📜 Certification Report:\n")
-    print(json.dumps(report, indent=2, ensure_ascii=False))
+    results = run_all_lenses(args.text)
+    print("=== Lens Results ===")
+    for lens, result in results.items():
+        print(f"{lens}: {result['response']}")
+
+if __name__ == "__main__":
+    main()

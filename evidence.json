@@ -1,52 +1,152 @@
 [
   {
-    "id": "SRC-001",
-    "url": "https://<replace-with-url>",
-    "domain": "<journal-domain.tld>",
-    "title": "<paper title>",
-    "date": "YYYY-MM-DD",
+    "id": "PRV-PMC",
+    "name": "PubMed Central (NIH)",
     "source_type": "peer_reviewed",
-    "trust_weight": 1.0,
-    "snippet": "<exact quoted snippet from the page supporting or contradicting the claim>"
+    "domain": "ncbi.nlm.nih.gov",
+    "base_url": "https://www.ncbi.nlm.nih.gov/pmc/",
+    "search_url_template": "https://www.ncbi.nlm.nih.gov/pmc/?term={q}",
+    "credibility_weight": 1.0,
+    "paywall": false
   },
   {
-    "id": "SRC-002",
-    "url": "https://<replace-with-url>",
-    "domain": "<agency.gov>",
-    "title": "<official factsheet/report title>",
-    "date": "YYYY-MM-DD",
+    "id": "PRV-PLOS",
+    "name": "PLOS ONE",
+    "source_type": "peer_reviewed",
+    "domain": "journals.plos.org",
+    "base_url": "https://journals.plos.org/plosone/",
+    "search_url_template": "https://journals.plos.org/plosone/search?q={q}",
+    "credibility_weight": 0.95,
+    "paywall": false
+  },
+  {
+    "id": "PRV-FRONTIERS",
+    "name": "Frontiers",
+    "source_type": "peer_reviewed",
+    "domain": "frontiersin.org",
+    "base_url": "https://www.frontiersin.org/",
+    "search_url_template": "https://www.frontiersin.org/search?query={q}",
+    "credibility_weight": 0.9,
+    "paywall": false
+  },
+  {
+    "id": "PRV-EEOC",
+    "name": "U.S. EEOC",
     "source_type": "government",
-    "trust_weight": 0.95,
-    "snippet": "<exact quoted snippet from the page>"
+    "domain": "eeoc.gov",
+    "base_url": "https://www.eeoc.gov/",
+    "search_url_template": "https://www.eeoc.gov/search?search={q}",
+    "credibility_weight": 0.95,
+    "paywall": false
   },
   {
-    "id": "SRC-003",
-    "url": "https://<replace-with-url>",
-    "domain": "<factcheck-site.tld>",
-    "title": "<fact check article title>",
-    "date": "YYYY-MM-DD",
-    "source_type": "fact_check",
-    "trust_weight": 0.9,
-    "snippet": "<exact quoted verdict or key passage>"
+    "id": "PRV-GAO",
+    "name": "U.S. GAO",
+    "source_type": "government",
+    "domain": "gao.gov",
+    "base_url": "https://www.gao.gov/",
+    "search_url_template": "https://www.gao.gov/search?search_api_fulltext={q}",
+    "credibility_weight": 0.95,
+    "paywall": false
   },
   {
-    "id": "SRC-004",
-    "url": "https://<replace-with-url>",
-    "domain": "<newswire.tld>",
-    "title": "<news wire article title>",
-    "date": "YYYY-MM-DD",
+    "id": "PRV-OECD",
+    "name": "OECD",
+    "source_type": "government",
+    "domain": "oecd.org",
+    "base_url": "https://www.oecd.org/",
+    "search_url_template": "https://www.oecd.org/search/?q={q}",
+    "credibility_weight": 0.9,
+    "paywall": false
+  },
+  {
+    "id": "PRV-ILO",
+    "name": "International Labour Organization",
+    "source_type": "government",
+    "domain": "ilo.org",
+    "base_url": "https://www.ilo.org/",
+    "search_url_template": "https://www.ilo.org/global/search/results/lang--en/index.htm?searchWhat={q}",
+    "credibility_weight": 0.9,
+    "paywall": false
+  },
+  {
+    "id": "PRV-WB",
+    "name": "World Bank",
+    "source_type": "government",
+    "domain": "worldbank.org",
+    "base_url": "https://www.worldbank.org/",
+    "search_url_template": "https://www.worldbank.org/en/search?q={q}",
+    "credibility_weight": 0.9,
+    "paywall": false
+  },
+  {
+    "id": "PRV-REUTERS",
+    "name": "Reuters",
     "source_type": "news_wire",
-    "trust_weight": 0.7,
-    "snippet": "<short quote from article relevant to the claim>"
+    "domain": "reuters.com",
+    "base_url": "https://www.reuters.com/",
+    "search_url_template": "https://www.reuters.com/site-search/?query={q}",
+    "credibility_weight": 0.8,
+    "paywall": false
   },
   {
-    "id": "SRC-005",
-    "url": "https://<replace-with-url>",
-    "domain": "wikipedia.org",
-    "title": "<wikipedia page title>",
-    "date": "YYYY-MM-DD",
+    "id": "PRV-AP",
+    "name": "AP News",
+    "source_type": "news_wire",
+    "domain": "apnews.com",
+    "base_url": "https://apnews.com/",
+    "search_url_template": "https://apnews.com/search?q={q}",
+    "credibility_weight": 0.8,
+    "paywall": false
+  },
+  {
+    "id": "PRV-FACTCHECK",
+    "name": "FactCheck.org",
+    "source_type": "fact_check",
+    "domain": "factcheck.org",
+    "base_url": "https://www.factcheck.org/",
+    "search_url_template": "https://www.factcheck.org/search/?q={q}",
+    "credibility_weight": 0.9,
+    "paywall": false
+  },
+  {
+    "id": "PRV-POLITIFACT",
+    "name": "PolitiFact",
+    "source_type": "fact_check",
+    "domain": "politifact.com",
+    "base_url": "https://www.politifact.com/",
+    "search_url_template": "https://www.politifact.com/search/?q={q}",
+    "credibility_weight": 0.9,
+    "paywall": false
+  },
+  {
+    "id": "PRV-SNopes",
+    "name": "Snopes",
+    "source_type": "fact_check",
+    "domain": "snopes.com",
+    "base_url": "https://www.snopes.com/",
+    "search_url_template": "https://www.snopes.com/search/?q={q}",
+    "credibility_weight": 0.85,
+    "paywall": false
+  },
+  {
+    "id": "PRV-OWID",
+    "name": "Our World in Data",
+    "source_type": "public_media",
+    "domain": "ourworldindata.org",
+    "base_url": "https://ourworldindata.org/",
+    "search_url_template": "https://ourworldindata.org/search?q={q}",
+    "credibility_weight": 0.85,
+    "paywall": false
+  },
+  {
+    "id": "PRV-WIKI",
+    "name": "Wikipedia",
     "source_type": "wikipedia",
-    "trust_weight": 0.5,
-    "snippet": "<short quoted sentence from the relevant section>"
+    "domain": "wikipedia.org",
+    "base_url": "https://en.wikipedia.org/",
+    "search_url_template": "https://en.wikipedia.org/w/index.php?search={q}",
+    "credibility_weight": 0.5,
+    "paywall": false
   }
 ]

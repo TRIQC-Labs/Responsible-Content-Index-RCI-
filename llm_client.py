@@ -11,7 +11,7 @@ from openai import OpenAI, OpenAIError
 load_dotenv()
 
 # ---- Defaults you can tweak ----
-DEFAULT_MODEL = os.getenv("OPENAI_MODEL", "gpt-5-mini")
+DEFAULT_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 DEFAULT_TEMPERATURE = float(os.getenv("OPENAI_TEMPERATURE", "1"))
 DEFAULT_MAX_TOKENS = int(os.getenv("OPENAI_MAX_TOKENS", "2000"))
 DEFAULT_SEED = int(os.getenv("OPENAI_SEED", "1337"))
@@ -64,7 +64,7 @@ def _retry_backoff(attempt: int, base: float = 0.75, cap: float = 8.0) -> None:
 
 # ---- Main entrypoints ----
 
-def query_gpt_client(
+def query_gpt(
     prompt: str,
     *,
     temperature: int = DEFAULT_TEMPERATURE,
