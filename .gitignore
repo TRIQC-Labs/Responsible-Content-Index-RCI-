@@ -1,4 +1,20 @@
-.env
+# Python
 __pycache__/
-*.pyc
-myenv
+*.py[cod]
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Logs
+*.log
+
+# Env files
+.env
+.env.*
+
+# OS/Editor
+.DS_Store
+.vscode/
