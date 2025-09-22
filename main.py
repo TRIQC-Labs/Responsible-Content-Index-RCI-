@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
-from controller import evaluate_text_stream
+from controller import evaluate_text_stream, test_evaluate_text_stream
 import json
 
 app = FastAPI()

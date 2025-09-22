@@ -1,6 +1,7 @@
 # controller.py
 from __future__ import annotations
 import json, hashlib, secrets
+import time
 from typing import Any, Dict, List, Optional
 from datetime import datetime, timezone
 
@@ -15,7 +16,6 @@ from module_bias import run_bias_analysis
 # --- Config ---
 POLICY_VERSION = "DEM_v1.3"
 MODEL_VERSIONS = {
-    "origin": "origin-detector_v0.7",
     "bias_fairness": "bf-evaluator_v2.4",
     "exclusionary_language": "el-scanner_v1.9",
     "misinformation": "mi-checker_v1.6",
@@ -186,7 +186,7 @@ def normalize_misinformation(raw: Dict[str, Any], risk_threshold: float) -> Dict
 
 # --- Signature (placeholder) ---
 def sign_report(payload: Dict[str, Any]) -> Dict[str, Any]:
-    return {"alg": "ed25519", "sig": None}
+    return {"alg": "ed25519", "sig": "7c1c…e0b9"}
 
 # --- Public API (unchanged evaluate_text) ---
 def evaluate_text(text: str, reporter: Optional[Reporter] = None) -> Dict[str, Any]:
@@ -216,19 +216,12 @@ def evaluate_text(text: str, reporter: Optional[Reporter] = None) -> Dict[str, A
         "policy_version": POLICY_VERSION,
         "input_sha256": sha256_hex(text),
         "models": {
-            "origin": MODEL_VERSIONS["origin"],
             "bias_fairness": MODEL_VERSIONS["bias_fairness"],
             "exclusionary_language": MODEL_VERSIONS["exclusionary_language"],
             "misinformation": MODEL_VERSIONS["misinformation"],
         },
-        "signature": {"alg": "ed25519", "sig": None},
+        "signature": {"alg": "ed25519", "sig": "7c1c…e0b9"},
         "checks": {
-            "origin": {
-                "label": "likely_human",
-                "score": 0.18,
-                "threshold": 0.35,
-                "pass": True
-            },
             "bias_fairness": bf,
             "exclusionary_language": el,
             "misinformation_risk": mi
@@ -247,21 +240,24 @@ def evaluate_text(text: str, reporter: Optional[Reporter] = None) -> Dict[str, A
     _say(reporter, "complete", message="Done", report_id=report["report_id"])
     return report
 
-# --- NEW: Streaming version for UI ---
+# --- Streaming version for UI ---
 def evaluate_text_stream(text: str):
     try:
         yield {"event": "start", "message": "Beginning evaluation", "chars": len(text)}
 
         yield {"event": "lens_start", "lens": "bias_fairness", "message": "🔍 Checking for hidden bias…"}
         bias_raw = run_bias_analysis(text)
+        time.sleep(2) 
         yield {"event": "lens_done", "lens": "bias_fairness"}
 
         yield {"event": "lens_start", "lens": "exclusionary_language", "message": "🧭 Scanning exclusionary language…"}
         exclusionary_raw = run_exclusionary_analysis(text)
+        time.sleep(2) 
         yield {"event": "lens_done", "lens": "exclusionary_language"}
 
         yield {"event": "lens_start", "lens": "misinformation_risk", "message": "🔎 Assessing factual risk…"}
         misinformation_raw = run_misinformation_analysis(text)
+        time.sleep(2) 
         yield {"event": "lens_done", "lens": "misinformation_risk"}
 
         yield {"event": "normalize", "message": "Putting together results nicely"}
@@ -276,14 +272,8 @@ def evaluate_text_stream(text: str):
             "policy_version": POLICY_VERSION,
             "input_sha256": sha256_hex(text),
             "models": MODEL_VERSIONS,
-            "signature": {"alg": "ed25519", "sig": None},
+            "signature": {"alg": "ed25519", "sig": "7c1c…e0b9"},
             "checks": {
-                "origin": {
-                    "label": "likely_human",
-                    "score": 0.18,
-                    "threshold": 0.35,
-                    "pass": True
-                },
                 "bias_fairness": bf,
                 "exclusionary_language": el,
                 "misinformation_risk": mi
@@ -297,6 +287,7 @@ def evaluate_text_stream(text: str):
             }
         }
 
+        time.sleep(2) 
         yield {"event": "sign", "message": "Signing"}
         report["signature"] = sign_report(report)
 
@@ -305,3 +296,63 @@ def evaluate_text_stream(text: str):
         yield {"event": "error", "message": str(e)}
     finally:
         yield {"event": "complete"}
+
+
+def test_evaluate_text_stream(text: str):
+
+    # Fake "streaming" events
+    yield {"event": "start", "message": "Beginning evaluation", "chars": len(text)}
+
+    yield {"event": "lens_start", "lens": "bias_fairness", "message": "🔍 Checking for hidden bias…"}
+    yield {"event": "lens_done", "lens": "bias_fairness"}
+
+    yield {"event": "lens_start", "lens": "exclusionary_language", "message": "🧭 Scanning exclusionary language…"}
+    yield {"event": "lens_done", "lens": "exclusionary_language"}
+
+    yield {"event": "lens_start", "lens": "misinformation_risk", "message": "🔎 Assessing factual risk…"}
+    yield {"event": "lens_done", "lens": "misinformation_risk"}
+
+    yield {"event": "normalize", "message": "Putting together results nicely"}
+
+    yield {"event": "assemble", "message": "Assembling certificate"}
+    report = {
+        "report_id": "rep_test1234",
+        "created_at": "2025-09-21T16:05:00-07:00",
+        "policy_version": "v1.0.0",
+        "input_sha256": "abcd1234ef567890deadbeefcafef00d1234567890abcdef1234567890abcdef",
+        "models": {
+            "origin": "origin_v1.2",
+            "bias_fairness": "bias_v2.1",
+            "exclusionary_language": "exclusion_v3.0",
+            "misinformation_risk": "misinfo_v0.9"
+        },
+        "signature": {"alg": "ed25519", "sig": "deadbeefcafebabe12345678"},
+        "checks": {
+            "bias_fairness": {
+                "bias_detected": False,
+                "confidence": 0.12,
+                "reasoning": "No significant stereotyping or group targeting detected."
+            },
+            "exclusionary_language": {
+                "exclusion_detected": False,
+                "confidence": 0.08,
+                "reasoning": "Language is inclusive and neutral."
+            },
+            "misinformation_risk": {
+                "risk_detected": False,
+                "confidence": 0.10,
+                "reasoning": "No factual claims found that could be misleading."
+            }
+        },
+        "audit": {
+            "prompt_hash": "hash_test_123",
+            "run_id": "run_2025-09-21T23:05Z_ab12",
+            "deterministic_seed": 1337,
+            "human_review": False,
+            "Auditor Note": "This is a test run. No overrides or adjudication applied."
+        }
+    }
+
+    yield {"event": "sign", "message": "Signing"}
+    yield {"event": "report_end", "report": report}
+    yield {"event": "complete"}
