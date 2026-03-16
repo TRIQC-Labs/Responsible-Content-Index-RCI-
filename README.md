@@ -1,4 +1,4 @@
-# TRIQC Responsible Content Index (RCI) (fka Equality Matrix)
+# TRIQC Responsible Content Index (RCI) (formerly known as Equality Matrix)
 
 This repository implements a real-time content evaluation system for assessing digital content against key ethical standards, focusing on **Exclusionary Language**, **Misinformation Risk**, **Bias & Fairness Issues**, **Accessibility Gaps**, and **Algorithmic Transparency**. 
 
